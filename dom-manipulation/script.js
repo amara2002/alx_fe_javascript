@@ -55,19 +55,49 @@ function filterQuotes() {
   showRandomQuote();
 }
 
-function addQuote() {
+async function postQuoteToServer(quote) {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(quote),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Error posting quote:', error);
+    notifyUser('Failed to post quote to server.');
+    return null;
+  }
+}
+
+async function addQuote() {
   const newQuoteText = document.getElementById('newQuoteText').value.trim();
   const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
   if (!newQuoteText || !newQuoteCategory) {
     alert('Please enter both quote text and category.');
     return;
   }
-  quotes.push({ text: newQuoteText, category: newQuoteCategory });
+  const newQuoteObj = { text: newQuoteText, category: newQuoteCategory };
+  
+  // Add locally first
+  quotes.push(newQuoteObj);
   saveQuotes();
   populateCategories();
   filterQuotes();
+  
+  // Clear inputs
   document.getElementById('newQuoteText').value = '';
   document.getElementById('newQuoteCategory').value = '';
+
+  // Post to server
+  const serverResponse = await postQuoteToServer(newQuoteObj);
+  if (serverResponse) {
+    notifyUser('Quote added and synced with server!');
+  }
 }
 
 // Notification helper
