@@ -1,19 +1,63 @@
-<h1>Dynamic Quote Generator</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dynamic Quote Generator with Filtering & Sync</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f9f9f9;
+    }
+    #quoteDisplay {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 5px;
+      min-height: 60px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      margin: 0.5rem 0.25rem 0.5rem 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #syncNotification {
+      margin-top: 1rem;
+      padding: 10px;
+      background: #def;
+      border: 1px solid #9cf;
+      border-radius: 4px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
-<div id="quoteDisplay"></div>
-<button id="newQuote">Show New Quote</button>
+  <h1>Dynamic Quote Generator</h1>
 
-<select id="categoryFilter" onchange="filterQuotes()">
-  <option value="all">All Categories</option>
-</select>
+  <div id="quoteDisplay">Click "Show New Quote" to get started!</div>
+  <button id="newQuote">Show New Quote</button>
 
-<div>
+  <h2>Add a New Quote</h2>
   <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
   <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-  <button onclick="addQuote()">Add Quote</button>
-</div>
+  <button id="addQuoteBtn">Add Quote</button>
 
-<button onclick="exportToJsonFile()">Export Quotes</button>
-<input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+  <h2>Filter Quotes by Category</h2>
+  <select id="categoryFilter">
+    <option value="all">All Categories</option>
+    <!-- Categories populated dynamically -->
+  </select>
 
-<script src="script.js"></script>
+  <h2>Import/Export Quotes</h2>
+  <button id="exportBtn">Export Quotes</button>
+  <input type="file" id="importFile" accept=".json" />
+
+  <div id="syncNotification"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
